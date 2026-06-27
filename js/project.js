@@ -275,49 +275,41 @@
   /* ----------------------------------------------------------
      Pinned: paper to plot
      ---------------------------------------------------------- */
-  var morphTl = gsap.timeline({
-    scrollTrigger: {
-      trigger: "#morph",
-      start: "top top",
-      end: "+=170%",
-      pin: ".morph-stage",
-      scrub: 0.6
-    }
-  });
-  morphTl
-    .fromTo(".morph-paper img", { scale: 1.04 }, { scale: 1.12, ease: "none", duration: 1 }, 0)
-    .fromTo(".morph-real", { opacity: 0 }, { opacity: 1, ease: "power1.inOut", duration: 0.7 }, 0.25)
-    .fromTo(".morph-real img", { scale: 1.16 }, { scale: 1, ease: "none", duration: 1 }, 0)
-    .to(".morph-tag-a", { opacity: 0.35, duration: 0.4 }, 0.35)
-    .to(".morph-tag-b", { opacity: 1, duration: 0.4 }, 0.45);
-
   /* ----------------------------------------------------------
-     Pinned: day to dusk
-     ---------------------------------------------------------- */
-  var duskTl = gsap.timeline({
-    scrollTrigger: {
-      trigger: "#duskfade",
-      start: "top top",
-      end: "+=170%",
-      pin: ".duskfade-stage",
-      scrub: 0.6
-    }
-  });
-  duskTl
-    .fromTo(".duskfade-day img", { scale: 1 }, { scale: 1.08, ease: "none", duration: 1 }, 0)
-    .fromTo(".duskfade-dusk", { opacity: 0 }, { opacity: 1, ease: "power1.inOut", duration: 0.7 }, 0.3)
-    .fromTo(".duskfade-dusk img", { scale: 1.1 }, { scale: 1.02, ease: "none", duration: 1 }, 0)
-    .to(".duskfade-time-day", { opacity: 0.4, duration: 0.4 }, 0.4)
-    .to(".duskfade-time-dusk", { opacity: 1, duration: 0.4 }, 0.5);
-
-  /* ----------------------------------------------------------
-     Horizontal gallery (desktop)
+     Desktop-only cinematics (>=769px): the two full-height pinned
+     crossfades and the horizontal gallery. On phones these are too
+     tall / oversized, so the CSS falls back to stacked layouts and
+     matchMedia tears these triggers down (and clears their inline
+     styles) automatically.
      ---------------------------------------------------------- */
   var mm = gsap.matchMedia();
   mm.add("(min-width: 769px)", function () {
+    /* Pinned: paper to plot */
+    var morphTl = gsap.timeline({
+      scrollTrigger: { trigger: "#morph", start: "top top", end: "+=170%", pin: ".morph-stage", scrub: 0.6 }
+    });
+    morphTl
+      .fromTo(".morph-paper img", { scale: 1.04 }, { scale: 1.12, ease: "none", duration: 1 }, 0)
+      .fromTo(".morph-real", { opacity: 0 }, { opacity: 1, ease: "power1.inOut", duration: 0.7 }, 0.25)
+      .fromTo(".morph-real img", { scale: 1.16 }, { scale: 1, ease: "none", duration: 1 }, 0)
+      .to(".morph-tag-a", { opacity: 0.35, duration: 0.4 }, 0.35)
+      .to(".morph-tag-b", { opacity: 1, duration: 0.4 }, 0.45);
+
+    /* Pinned: day to dusk */
+    var duskTl = gsap.timeline({
+      scrollTrigger: { trigger: "#duskfade", start: "top top", end: "+=170%", pin: ".duskfade-stage", scrub: 0.6 }
+    });
+    duskTl
+      .fromTo(".duskfade-day img", { scale: 1 }, { scale: 1.08, ease: "none", duration: 1 }, 0)
+      .fromTo(".duskfade-dusk", { opacity: 0 }, { opacity: 1, ease: "power1.inOut", duration: 0.7 }, 0.3)
+      .fromTo(".duskfade-dusk img", { scale: 1.1 }, { scale: 1.02, ease: "none", duration: 1 }, 0)
+      .to(".duskfade-time-day", { opacity: 0.4, duration: 0.4 }, 0.4)
+      .to(".duskfade-time-dusk", { opacity: 1, duration: 0.4 }, 0.5);
+
+    /* Horizontal gallery */
     var track = document.getElementById("hscrollTrack");
     var getX = function () { return -(track.scrollWidth - window.innerWidth); };
-    var tween = gsap.to(track, {
+    gsap.to(track, {
       x: getX,
       ease: "none",
       scrollTrigger: {
@@ -330,7 +322,6 @@
         anticipatePin: 1
       }
     });
-    return function () { tween.scrollTrigger && tween.scrollTrigger.kill(); };
   });
 
   /* Panel captions drift in */
