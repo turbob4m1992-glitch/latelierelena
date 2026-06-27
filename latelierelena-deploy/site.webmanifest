@@ -1,0 +1,14 @@
+{
+  "name": "L'Atelier Elena",
+  "short_name": "L'Atelier Elena",
+  "description": "A design-and-build studio shaping private residences in Lake Forest, Illinois.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "theme_color": "#14120f",
+  "background_color": "#14120f",
+  "icons": [
+    { "src": "/assets/img/favicon-32.png", "sizes": "32x32", "type": "image/png" },
+    { "src": "/assets/img/favicon-256.png", "sizes": "256x256", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
