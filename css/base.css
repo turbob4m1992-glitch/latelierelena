@@ -860,24 +860,19 @@ html.no-intro .preloader { display: none !important; }
   .hero-title { text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 2px 26px rgba(0, 0, 0, 0.62); }
   .hero-sub { color: rgba(250, 247, 241, 0.95); text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6), 0 1px 14px rgba(0, 0, 0, 0.6); }
 
-  /* Morph + dusk crossfades: no full-height pin on phones — stack the two
-     images at a natural landscape size and lay the caption beneath them. */
-  .morph-stage, .duskfade-stage { height: auto; min-height: 0; overflow: visible; }
-  .morph-layer, .duskfade-layer {
-    position: relative;
-    inset: auto;
-    margin: 0;
-    opacity: 1;
-    aspect-ratio: 3 / 2;
+  /* The centred "Design · Build" label crowds the monogram on phones — drop it */
+  .header-center { display: none; }
+
+  /* Morph + dusk crossfades: keep the effect, lose the full-screen zoom.
+     The stage becomes a properly-sized landscape frame; the two images still
+     overlap and crossfade (driven by a non-pinned scrubbed timeline in JS). */
+  .morph-stage, .duskfade-stage {
+    height: 68vw;
+    min-height: 230px;
+    max-height: 56svh;
   }
-  .morph-real, .duskfade-dusk { opacity: 1; }
-  .morph-paper, .duskfade-day { margin-bottom: clamp(0.6rem, 2.5vw, 1rem); }
-  .morph-stage::after, .duskfade-stage::after { display: none; }
-  .morph-tag-a, .morph-tag-b, .duskfade-time-day, .duskfade-time-dusk { opacity: 1; }
-  .morph-caption, .duskfade-caption {
-    position: static;
-    padding: clamp(1.3rem, 5vw, 2rem) var(--pad-x) clamp(2rem, 7vh, 3rem);
-  }
+  .morph-caption, .duskfade-caption { bottom: clamp(1.2rem, 4.5vw, 2rem); }
+  .morph-title, .duskfade-title { font-size: clamp(1.7rem, 7vw, 2.4rem); }
 
   /* Scrolling gallery: vertical stack instead of a sideways swipe */
   .hscroll { overflow: visible; }
@@ -890,11 +885,6 @@ html.no-intro .preloader { display: none !important; }
   }
   .hpanel, .hpanel-tall { width: 100%; }
   .hpanel-media, .hpanel-tall .hpanel-media { aspect-ratio: 3 / 2; }
-}
-
-@media (max-width: 600px) {
-  /* The centred "Design · Build" label crowds the monogram on phones — drop it */
-  .header-center { display: none; }
 }
 
 /* ============================================================

@@ -324,6 +324,19 @@
     });
   });
 
+  /* Phones (<=768px): same crossfade effect, but NOT pinned and not full-screen.
+     Each pair lives in a landscape frame (CSS) and crossfades as the section
+     scrolls through the viewport, so the images read at the right size. */
+  mm.add("(max-width: 768px)", function () {
+    var st = function (trigger) { return { trigger: trigger, start: "top 80%", end: "bottom 55%", scrub: 0.5 }; };
+    gsap.fromTo(".morph-real", { opacity: 0 }, { opacity: 1, ease: "none", scrollTrigger: st("#morph") });
+    gsap.fromTo(".morph-tag-b", { opacity: 0.35 }, { opacity: 1, ease: "none", scrollTrigger: st("#morph") });
+    gsap.to(".morph-tag-a", { opacity: 0.35, ease: "none", scrollTrigger: st("#morph") });
+    gsap.fromTo(".duskfade-dusk", { opacity: 0 }, { opacity: 1, ease: "none", scrollTrigger: st("#duskfade") });
+    gsap.fromTo(".duskfade-time-dusk", { opacity: 0.4 }, { opacity: 1, ease: "none", scrollTrigger: st("#duskfade") });
+    gsap.to(".duskfade-time-day", { opacity: 0.4, ease: "none", scrollTrigger: st("#duskfade") });
+  });
+
   /* Panel captions drift in */
   gsap.utils.toArray(".hpanel").forEach(function (panel, i) {
     gsap.from(panel, {
