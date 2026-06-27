@@ -22,7 +22,11 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-html { scroll-behavior: auto; }
+html {
+  scroll-behavior: auto;
+  overflow-x: hidden;
+  width: 100%;
+}
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 
@@ -34,6 +38,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  width: 100%;
+  position: relative;
 }
 
 ::selection { background: var(--brass); color: var(--ink); }

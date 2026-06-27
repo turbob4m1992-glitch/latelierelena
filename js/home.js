@@ -30,6 +30,7 @@
   }
 
   gsap.registerPlugin(ScrollTrigger);
+  ScrollTrigger.config({ ignoreMobileResize: true });
 
   /* ----------------------------------------------------------
      Smooth scroll (Lenis)
