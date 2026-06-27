@@ -36,7 +36,8 @@
      Smooth scroll (Lenis)
      ---------------------------------------------------------- */
   var lenis = null;
-  if (typeof Lenis !== "undefined") {
+  var isTouch = window.matchMedia("(pointer: coarse)").matches;
+  if (typeof Lenis !== "undefined" && !isTouch) {
     lenis = new Lenis({ duration: 1.25, smoothWheel: true });
     lenis.on("scroll", ScrollTrigger.update);
     gsap.ticker.add(function (t) { lenis.raf(t * 1000); });
