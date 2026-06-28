@@ -139,6 +139,13 @@ html.no-intro .preloader { display: none !important; }
 }
 @media (hover: none) {
   .cursor, .cursor-label { display: none; }
+  /* Phones / touch: kill the fixed full-screen animated grain and the
+     per-frame blend on the header. Both force the compositor to redraw a
+     full-viewport layer on every scroll frame, which is the main cause of
+     the stuttering, "jumping" scroll on phones. */
+  .grain { display: none; }
+  .header-center, .menu-btn { mix-blend-mode: normal; }
+  .menu-btn { color: #fff; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.55); }
 }
 
 .grain {
@@ -352,8 +359,13 @@ html.no-intro .preloader { display: none !important; }
   position: relative;
   overflow: hidden;
 }
-.media img {
+/* Promote ONLY the elements that animate transform continuously (the hero and
+   the scroll-parallax media). A blanket will-change on every photo spawned 20+
+   composited layers and exhausted GPU memory on phones, which made scrolling
+   lag and the desktop hero stutter. */
+[data-parallax] img {
   will-change: transform;
+  backface-visibility: hidden;
 }
 .media.has-cap::after {
   content: "";
@@ -405,6 +417,11 @@ html.no-intro .preloader { display: none !important; }
 }
 .hero-img {
   transform-origin: center center;
+  /* The hero image scales on intro and parallaxes on scroll, so give it its
+     own GPU layer up front — otherwise the browser re-rasterizes a 2400px
+     image every frame, which is what made the desktop hero look slow/glitchy. */
+  will-change: transform;
+  backface-visibility: hidden;
 }
 .hero-veil {
   position: absolute;

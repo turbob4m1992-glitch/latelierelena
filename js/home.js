@@ -235,8 +235,17 @@
     });
   });
 
-  /* Word-by-word scrub (about section) */
+  /* Word-by-word scrub (about section). On touch the scroll-scrubbed per-word
+     opacity repainted dozens of spans on every scroll frame — a major cause of
+     laggy phone scrolling — so there we use a single cheap fade instead. */
   gsap.utils.toArray("[data-words]").forEach(function (p) {
+    if (isTouch) {
+      gsap.fromTo(p, { opacity: 0 }, {
+        opacity: 1, duration: 0.8, ease: "power2.out",
+        scrollTrigger: { trigger: p, start: "top 85%" }
+      });
+      return;
+    }
     gsap.fromTo(p.querySelectorAll(".w"), { opacity: 0.14 }, {
       opacity: 1,
       stagger: 0.06,
@@ -255,16 +264,19 @@
       .to(img, { scale: 1, duration: 1.8, ease: "power3.out" }, "-=1.1");
   });
 
-  /* Parallax media */
-  gsap.utils.toArray("[data-parallax]").forEach(function (fig) {
-    var img = fig.querySelector("img");
-    gsap.set(img, { scale: 1.16 });
-    gsap.fromTo(img, { yPercent: -8 }, {
-      yPercent: 8,
-      ease: "none",
-      scrollTrigger: { trigger: fig, start: "top bottom", end: "bottom top", scrub: 0.5 }
+  /* Parallax media — desktop only. Scroll-scrubbed transforms fight native
+     momentum scrolling on phones and make the page judder, so we skip them. */
+  if (!isTouch) {
+    gsap.utils.toArray("[data-parallax]").forEach(function (fig) {
+      var img = fig.querySelector("img");
+      gsap.set(img, { scale: 1.16 });
+      gsap.fromTo(img, { yPercent: -8 }, {
+        yPercent: 8,
+        ease: "none",
+        scrollTrigger: { trigger: fig, start: "top bottom", end: "bottom top", scrub: 0.5 }
+      });
     });
-  });
+  }
 
   /* Gallery tiles cascade */
   gsap.utils.toArray(".gallery-grid figure").forEach(function (fig, i) {
@@ -274,15 +286,17 @@
     });
   });
 
-  /* Hero parallax out */
-  gsap.to(".hero-content", {
-    yPercent: 30, opacity: 0, ease: "none",
-    scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom 30%", scrub: 0.5 }
-  });
-  gsap.to(".hero-img", {
-    yPercent: 14, ease: "none",
-    scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: 0.5 }
-  });
+  /* Hero parallax out — desktop only (scrubbed against touch scroll = jank) */
+  if (!isTouch) {
+    gsap.to(".hero-content", {
+      yPercent: 30, opacity: 0, ease: "none",
+      scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom 30%", scrub: 0.5 }
+    });
+    gsap.to(".hero-img", {
+      yPercent: 14, ease: "none",
+      scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: 0.5 }
+    });
+  }
 
   /* ----------------------------------------------------------
      Seamless marquee — GSAP driven. The track holds two identical
