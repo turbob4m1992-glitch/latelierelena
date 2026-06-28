@@ -330,13 +330,25 @@
      Each pair lives in a landscape frame (CSS) and crossfades as the section
      scrolls through the viewport, so the images read at the right size. */
   mm.add("(max-width: 768px)", function () {
-    var st = function (trigger) { return { trigger: trigger, start: "top 80%", end: "bottom 55%", scrub: 0.5 }; };
-    gsap.fromTo(".morph-real", { opacity: 0 }, { opacity: 1, ease: "none", scrollTrigger: st("#morph") });
-    gsap.fromTo(".morph-tag-b", { opacity: 0.35 }, { opacity: 1, ease: "none", scrollTrigger: st("#morph") });
-    gsap.to(".morph-tag-a", { opacity: 0.35, ease: "none", scrollTrigger: st("#morph") });
-    gsap.fromTo(".duskfade-dusk", { opacity: 0 }, { opacity: 1, ease: "none", scrollTrigger: st("#duskfade") });
-    gsap.fromTo(".duskfade-time-dusk", { opacity: 0.4 }, { opacity: 1, ease: "none", scrollTrigger: st("#duskfade") });
-    gsap.to(".duskfade-time-day", { opacity: 0.4, ease: "none", scrollTrigger: st("#duskfade") });
+    var stProps = function(trigger) { return { trigger: trigger, start: "top 95%", end: "bottom 15%", scrub: 1.2 }; };
+
+    /* Mobile Morph */
+    var morphTl = gsap.timeline({ scrollTrigger: stProps("#morph") });
+    morphTl
+      .fromTo(".morph-paper img", { scale: 1.04 }, { scale: 1.12, ease: "none", duration: 1 }, 0)
+      .fromTo(".morph-real", { opacity: 0 }, { opacity: 1, ease: "power1.inOut", duration: 0.7 }, 0.25)
+      .fromTo(".morph-real img", { scale: 1.16 }, { scale: 1, ease: "none", duration: 1 }, 0)
+      .to(".morph-tag-a", { opacity: 0.35, duration: 0.4 }, 0.35)
+      .to(".morph-tag-b", { opacity: 1, duration: 0.4 }, 0.45);
+
+    /* Mobile Duskfade */
+    var duskTl = gsap.timeline({ scrollTrigger: stProps("#duskfade") });
+    duskTl
+      .fromTo(".duskfade-day img", { scale: 1 }, { scale: 1.08, ease: "none", duration: 1 }, 0)
+      .fromTo(".duskfade-dusk", { opacity: 0 }, { opacity: 1, ease: "power1.inOut", duration: 0.7 }, 0.3)
+      .fromTo(".duskfade-dusk img", { scale: 1.1 }, { scale: 1.02, ease: "none", duration: 1 }, 0)
+      .to(".duskfade-time-day", { opacity: 0.4, duration: 0.4 }, 0.4)
+      .to(".duskfade-time-dusk", { opacity: 1, duration: 0.4 }, 0.5);
   });
 
   /* Panel captions drift in */
