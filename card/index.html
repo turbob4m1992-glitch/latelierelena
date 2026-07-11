@@ -48,20 +48,28 @@ body::after{ content:""; position:fixed; inset:-25%; z-index:0; pointer-events:n
 
 /* ---- BACK ---- */
 .back{ display:grid; grid-template-columns:37.5cqw 0 1fr; align-items:center; }
-.back-left{ display:flex; align-items:center; justify-content:center; height:100%; }
+.back-left{ position:relative; display:flex; align-items:center; justify-content:center; height:100%; }
 .mark{ width:27cqw; height:auto; display:block;
   filter: drop-shadow(0 0.5cqw 1cqw rgba(0,0,0,.55)); }
-.vrule{ width:0.18cqw; height:58cqh; align-self:center; justify-self:center;
-  background:linear-gradient(180deg, transparent, var(--red) 12%, var(--red) 88%, transparent);
-  box-shadow:0 0 1.2cqw rgba(210,31,34,.35); }
+/* QR (print only) — takes them to latelierelena.com, tucked in the bottom-right.
+   Absolutely placed on the card so the monogram stays identically centered on
+   both the digital and printed cards. */
+.qr{ position:absolute; right:7cqw; bottom:7cqw; }
+.qr img{ width:9.5cqw; height:auto; display:block; border-radius:0.6cqw;
+  box-shadow:0 0.4cqw 1cqw rgba(0,0,0,.5); }
+/* gold divider (was red) — softens the red so the mark + icons carry it */
+.vrule{ width:0.24cqw; height:58cqh; align-self:center; justify-self:center;
+  background:linear-gradient(180deg, transparent, var(--gold) 14%, var(--gold) 86%, transparent);
+  box-shadow:0 0 1cqw rgba(201,165,102,.22); }
 .back-right{ padding:0 4cqw 0 5cqw; }
 .name{ font-family:'Cinzel',serif; font-weight:600; font-size:4.55cqw;
   letter-spacing:.02em; line-height:1; white-space:nowrap; }
 .title{ font-family:'Cinzel',serif; font-weight:500; font-size:2.7cqw;
   letter-spacing:.22em; margin-top:2.1cqw; text-transform:uppercase; }
 .minirule{ display:flex; align-items:center; gap:1.2cqw; margin:3.4cqw 0 3.9cqw; width:31cqw; }
-.minirule .line{ height:0.12cqw; flex:1; background:linear-gradient(90deg,var(--red),rgba(210,31,34,.15)); }
-.minirule .line:last-child{ background:linear-gradient(90deg,rgba(210,31,34,.15),var(--red)); }
+/* min 1.5px keeps the line from vanishing on lower-res screens (digital) */
+.minirule .line{ height:max(1.5px,0.16cqw); flex:1; background:linear-gradient(90deg,var(--red),rgba(210,31,34,.5)); }
+.minirule .line:last-child{ background:linear-gradient(90deg,rgba(210,31,34,.5),var(--red)); }
 .minirule .dia{ width:1.5cqw; height:1.5cqw; background:var(--red); transform:rotate(45deg);
   box-shadow:0 0 1cqw rgba(210,31,34,.4); }
 .contact{ display:flex; flex-direction:column; gap:2.55cqw; }
@@ -71,7 +79,9 @@ body::after{ content:""; position:fixed; inset:-25%; z-index:0; pointer-events:n
   filter:drop-shadow(0 0.15cqw .3cqw rgba(0,0,0,.5)); }
 .ctext{ font-family:'Cormorant Garamond','Cinzel',serif; font-weight:600;
   font-size:3.8cqw; letter-spacing:.04em; line-height:1; white-space:nowrap; transition:color .25s ease; }
-.ctext.num{ letter-spacing:.11em; }
+/* even, uniform-height digits (client asked for numbers "lined up even") */
+.ctext.num{ letter-spacing:.14em; font-family:'Cinzel',serif; font-weight:500; font-size:3.5cqw;
+  font-variant-numeric:lining-nums tabular-nums; }
 .ctext.caps{ text-transform:uppercase; letter-spacing:.07em; font-size:3.15cqw; }
 /* clickable-row affordance (online only; harmless in the print raster) */
 a.row:hover .ctext{ color:#ecd196; }
@@ -119,8 +129,9 @@ a.row:focus-visible{ outline:0.25cqw solid rgba(210,31,34,.6); outline-offset:1c
         <div class="name gold">Elena C. Cracaoanu</div>
         <div class="title gold">Founder &amp; Designer</div>
         <div class="minirule"><span class="line"></span><span class="dia"></span><span class="line"></span></div>
-        <div class="contact"><a class="row" href="tel:+12245549564" target="_blank" rel="noopener noreferrer"><span class="ico"><svg viewBox="0 0 24 24" fill="var(--red)"><path d="M6.6 10.8a15.5 15.5 0 0 0 6.6 6.6l2.2-2.2c.28-.28.68-.36 1.03-.24 1.13.37 2.35.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.4 21 3 13.6 3 4.5 3 3.95 3.45 3.5 4 3.5h3.5c.55 0 1 .45 1 1 0 1.22.2 2.44.57 3.57.11.35.03.74-.24 1.02L6.6 10.8z"/></svg></span><span class="ctext num">224.554.9564</span></a><a class="row" href="mailto:info@latelierelena.com" target="_blank" rel="noopener noreferrer"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="1.6"><rect x="2.6" y="4.6" width="18.8" height="14.8" rx="1.6"/><path d="M3.2 6 12 12.6 20.8 6"/></svg></span><span class="ctext ">info@latelierelena.com</span></a><a class="row" href="https://latelierelena.com" target="_blank" rel="noopener noreferrer"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="1.5"><circle cx="12" cy="12" r="9.2"/><path d="M2.8 12h18.4M12 2.8c2.6 2.4 4 5.7 4 9.2s-1.4 6.8-4 9.2c-2.6-2.4-4-5.7-4-9.2s1.4-6.8 4-9.2z"/></svg></span><span class="ctext ">www.latelierelena.com</span></a><a class="row" href="https://instagram.com/l.atelier.elena" target="_blank" rel="noopener noreferrer"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.1"/><circle cx="17.4" cy="6.6" r="1.15" fill="var(--red)" stroke="none"/></svg></span><span class="ctext ">@l.atelier.elena</span></a><div class="row"><span class="ico"><svg viewBox="0 0 24 24" fill="var(--red)"><path d="M12 2.2c-3.9 0-7 3.1-7 7 0 5 7 12.6 7 12.6s7-7.6 7-12.6c0-3.9-3.1-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg></span><span class="ctext caps">Lake Forest, Illinois</span></div></div>
+        <div class="contact"><a class="row" href="tel:+12245549564" target="_blank" rel="noopener noreferrer"><span class="ico"><svg viewBox="0 0 24 24" fill="var(--red)"><path d="M6.6 10.8a15.5 15.5 0 0 0 6.6 6.6l2.2-2.2c.28-.28.68-.36 1.03-.24 1.13.37 2.35.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.4 21 3 13.6 3 4.5 3 3.95 3.45 3.5 4 3.5h3.5c.55 0 1 .45 1 1 0 1.22.2 2.44.57 3.57.11.35.03.74-.24 1.02L6.6 10.8z"/></svg></span><span class="ctext num">224.554.9564</span></a><a class="row" href="mailto:info@latelierelena.com" target="_blank" rel="noopener noreferrer"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="1.6"><rect x="2.6" y="4.6" width="18.8" height="14.8" rx="1.6"/><path d="M3.2 6 12 12.6 20.8 6"/></svg></span><span class="ctext ">info@latelierelena.com</span></a><a class="row" href="https://latelierelena.com" target="_blank" rel="noopener noreferrer"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="var(--red)" stroke-width="1.5"><circle cx="12" cy="12" r="9.2"/><path d="M2.8 12h18.4M12 2.8c2.6 2.4 4 5.7 4 9.2s-1.4 6.8-4 9.2c-2.6-2.4-4-5.7-4-9.2s1.4-6.8 4-9.2z"/></svg></span><span class="ctext ">www.latelierelena.com</span></a><a class="row" href="https://linkedin.com/company/latelierelena" target="_blank" rel="noopener noreferrer"><span class="ico"><svg viewBox="0 0 24 24" fill="var(--red)"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg></span><span class="ctext ">company/latelierelena</span></a><div class="row"><span class="ico"><svg viewBox="0 0 24 24" fill="var(--red)"><path d="M12 2.2c-3.9 0-7 3.1-7 7 0 5 7 12.6 7 12.6s7-7.6 7-12.6c0-3.9-3.1-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg></span><span class="ctext caps">Lake Forest, Illinois</span></div></div>
       </div>
+      
     </div><span class="sheen"></span></div>
     <div class="caption">L'Atelier Elena · From Concept to Creation</div>
   </div>
